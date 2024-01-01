@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Shuffle App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .flags {
+      justify-content: space-between;
+      width: 100%;
+      padding: 15px;
+	  
+    }
+
+    .flags img {
+      width: 32px;
+      cursor: pointer;
+    }
+
+    .imprint {
+      text-align: right;
+      margin-right: 15px;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .card img {
+      width: 64px;
+      margin-bottom: 10px;
+    }
+
+    .card span {
+      font-size: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="flags" align="right" >
+    <img src="https://cdn-icons-png.flaticon.com/128/555/555417.png" alt="English flag" id="englishFlag">
+    <img src="https://cdn-icons-png.flaticon.com/128/555/555613.png" alt="German flag" id="germanFlag">
+	<div class="imprint">Imprint</div>
+  </div>
+  
+  <div class="container" id="cardContainer">
+    <!-- Generated cards will be appended here -->
+  </div>
+  <script>
+    const cardData = {
+      "Set English": [ {
+      "words": [
+      "Head",
+      "Tail"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F8E2B7",
+    "icon": "https://cdn-icons-png.flaticon.com/128/10693/10693535.png"
+  }, 
+  {
+    "words": [
+      "Yes",
+      "No",
+      "Maybe",
+      "Later"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#BAF5F8",
+    "icon": "https://cdn-icons-png.flaticon.com/128/1766/1766520.png"
+  },
+  {
+    "words": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F6F5B2",
+    "icon": "https://cdn-icons-png.flaticon.com/128/1669/1669397.png"
+  },
+  {
+    "words": [
+      "Garden",
+      "Store",
+      "Bridge",
+      "Airport",
+      "Living Room",
+      "Library",
+      "School",
+      "Office",
+      "Moon",
+      "Bus",
+      "Taxi",
+      "Cinema",
+      "Restaurant",
+      "Party",
+      "Doctor",
+      "Musical",
+      "Airplane",
+      "Car",
+      "Parachute",
+      "Ship",
+      "Hotel",
+      "Concert",
+      "Pharmacy",
+      "Flower Shop",
+      "Authority",
+      "Forest",
+      "Swimming Pool",
+      "Church",
+      "Confessional",
+      "Hospital",
+      "Stage",
+      "Hike",
+      "Vacation",
+      "Zoo",
+      "Space",
+      "Funeral",
+      "Monastery",
+      "University",
+      "Schoolyard",
+      "Park",
+      "Traffic Light",
+      "Train Station",
+      "Deserted Island",
+      "Courtroom"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#FAB6B7",
+    "icon": "https://cdn-icons-png.flaticon.com/128/535/535239.png"
+  },
+  {
+    "words": [
+      "Pilot",
+      "Doctor",
+      "Child",
+      "Baby",
+      "Scientist",
+      "Teacher",
+      "King",
+      "Tourist",
+      "Movie Star",
+      "Artist",
+      "Pet",
+      "Judge",
+      "Grandfather",
+      "Grandma",
+      "Nun",
+      "Priest",
+      "Police Officer",
+      "Worker",
+      "Banker",
+      "Cleaning Lady",
+      "Hairdresser",
+      "Dentist",
+      "Chimney Sweep",
+      "Pensioner",
+      "Student",
+      "Undergraduate",
+      "Millionaire",
+      "Forester",
+      "Mime",
+      "Clown",
+      "Conspiracy Theorist",
+      "Service Staff",
+      "Electrician",
+      "Kindergarten Teacher",
+      "Truck Driver",
+      "Seller",
+      "Cashier",
+      "Singer",
+      "Spy",
+      "Politician",
+      "Zombie",
+      "Actor",
+      "Lawyer",
+      "Farmer",
+      "Chef",
+      "Architect",
+      "Photographer",
+      "Athlete",
+      "Baker",
+      "Firefighter"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#CAF7B4",
+    "icon": "https://cdn-icons-png.flaticon.com/128/554/554724.png"
+  },
+  {
+    "words": [
+      "Anna",
+      "Lukas",
+      "Maria",
+      "David",
+      "Julia",
+      "Tobias",
+      "Laura",
+      "Michael",
+      "Sarah",
+      "Daniel",
+      "Lisa",
+      "Alexander",
+      "Eva",
+      "Johannes",
+      "Katharina",
+      "Sebastian",
+      "Lena",
+      "Benjamin",
+      "Sophia",
+      "Fabian",
+      "Melanie",
+      "Florian",
+      "Isabella",
+      "Oliver",
+      "Nadine",
+      "Andrew",
+      "Nicole",
+      "Simon",
+      "Helena",
+      "Stephen",
+      "Emma",
+      "Mia",
+      "Maximilian",
+      "Elias",
+      "Emily",
+      "Felix",
+      "Ava",
+      "Leon",
+      "Lily",
+      "Samuel",
+      "Zoe",
+      "Moritz",
+      "Grace",
+      "Noah",
+      "Olivia",
+      "Paul",
+      "Aria",
+      "Jacob"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#C8B9F7",
+    "icon": "https://cdn-icons-png.flaticon.com/128/10721/10721956.png"
+  },
+  {
+    "words": [
+      "Without money",
+      "Wrong language",
+      "Deaf",
+      "Blind",
+      "Disabled",
+      "Broke",
+      "Homeless",
+      "Fired",
+      "Separated",
+      "Cheated",
+      "Lied to",
+      "Robbed",
+      "Seduced",
+      "Lost",
+      "Arrested",
+      "Forgotten",
+      "Missed",
+      "Sick",
+      "Sentenced",
+      "Breakdown",
+      "Fire",
+      "Flood",
+      "Dead end",
+      "Mishap",
+      "Dilemma",
+      "Crisis"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F2D4B5",
+    "icon": "https://cdn-icons-png.flaticon.com/128/2896/2896405.png"
+  },
+  {
+    "words": [
+      "Drunk",
+      "Bitter",
+      "Happy",
+      "Euphoric",
+      "Scared",
+      "Desperate",
+      "Excited",
+      "Sad",
+      "Disoriented",
+      "Faithful",
+      "Lustful",
+      "Hungry",
+      "Angry",
+      "Confused",
+      "Jealous",
+      "Proud",
+      "Skeptical",
+      "Regret",
+      "Curious",
+      "Hatred",
+      "Boredom",
+      "Affection",
+      "Panic",
+      "Paranoia"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F4B7D2",
+    "icon": "https://cdn-icons-png.flaticon.com/128/3269/3269459.png"
+  }
+  ],
+      "Set German": [ {
+    "words": [
+      "Ja",
+      "Nein",
+      "Vielleicht",
+      "Später"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#BAF5F8",
+    "icon": "https://cdn-icons-png.flaticon.com/128/1766/1766520.png"
+  }, {
+    "words": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F6F5B2",
+    "icon": "https://cdn-icons-png.flaticon.com/128/1669/1669397.png"
+  },
+     {
+    "words": [
+      "Garten",
+      "Geschäft",
+      "Brücke",
+      "Flughafen",
+      "Wohnzimmer",
+      "Bibliothek",
+      "Schule",
+      "Büro",
+      "Mond",
+      "Bus",
+      "Taxi",
+      "Kino",
+      "Restaurant",
+      "Party",
+      "Arzt",
+      "Musical",
+	  "Flugzeug", "Auto",  "Fallschirm", "Schiff", "Hotel",  "Konzert", "Apotheke", "Blumenladen", "Behörde", "Wald", "Schwimmbad", "Kirche", "Beichtstuhl", "Krankenhaus", "Bühne", "Wanderung", "Urlaub", "Zoo", "Weltraum", "Beerdigung", "Kloster", "Universität", "Schulhof", "Park", "Ampel", "Bahnhof", "Einsame Insel", "Gerichtssaal"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#FAB6B7",
+    "icon": "https://cdn-icons-png.flaticon.com/128/535/535239.png"
+  },{
+    "words": [
+       "Pilot",
+  "Arzt",
+  "Kind",
+  "Baby",
+  "Wissenschaftler",
+  "Lehrer",
+  "König",
+  "Tourist",
+  "Filmstar",
+  "Künstler",
+  "Haustier",
+  "Richter",
+  "Großvater",
+  "Oma",
+  "Nonne",
+  "Pfarrer",
+  "Polizist",
+  "Arbeiter",
+  "Bänker",
+  "Putzfrau",
+  "Frisör",
+  "Zahnarzt",
+  "Schonsteinfeger",
+  "Rentner",
+  "Schüler",
+  "Student",
+  "Millionär",
+  "Förster",
+  "Pantomime",
+  "Clown",
+  "Verschwörungstheoretiker",
+  "Servicepersonal",
+  "Elektriker",
+  "Kindergärtner",
+  "LKW-Fahrer",
+  "Verkäufer",
+  "Kassierer",
+  "Sänger",
+  "Spion",
+  "Politiker",
+  "Zombie",
+  "Schauspieler",
+  "Anwalt",
+  "Landwirt",
+  "Koch",
+  "Architekt",
+  "Fotograf",
+  "Athlet",
+  "Bäcker",
+  "Feuerwehrmann"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#CAF7B4",
+    "icon": "https://cdn-icons-png.flaticon.com/128/554/554724.png"
+  },{
+      "words": [
+        "Anna",
+  "Lukas",
+  "Maria",
+  "David",
+  "Julia",
+  "Tobias",
+  "Laura",
+  "Michael",
+  "Sarah",
+  "Daniel",
+  "Lisa",
+  "Alexander",
+  "Eva",
+  "Johannes",
+  "Katharina",
+  "Sebastian",
+  "Lena",
+  "Benjamin",
+  "Sophia",
+  "Fabian",
+  "Melanie",
+  "Florian",
+  "Isabella",
+  "Oliver",
+  "Nadine",
+  "Andreas",
+  "Nicole",
+  "Simon",
+  "Helena",
+  "Stefan",
+  "Emma",
+  "Mia",
+  "Maximilian",
+  "Elias",
+  "Emily",
+  "Felix",
+  "Ava",
+  "Leon",
+  "Lily",
+  "Samuel",
+  "Zoe",
+  "Moritz",
+  "Grace",
+  "Noah",
+  "Olivia",
+  "Paul",
+  "Aria",
+  "Jakob"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#C8B9F7",
+    "icon": "https://cdn-icons-png.flaticon.com/128/10721/10721956.png"
+},{
+      "words": [
+      "betrunken",
+  "verbittert",
+  "glücklich",
+  "euphorisch",
+  "ängstlich",
+  "Verzweifelt",
+  "aufgeregt",
+  "traurig",
+  "orientierungslos",
+  "gläubig",
+  "wollüstig",
+  "hungrig",
+  "wütend",
+  "verwirrt",
+  "eifersüchtig",
+  "stolz",
+  "skeptisch",
+  "bedauern",
+  "neugierig",
+  "Hass",
+  "Langeweile",
+  "Zuneigung",
+  "Panik",
+  "Paranoia"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F4B7D2",
+    "icon": "https://cdn-icons-png.flaticon.com/128/3269/3269459.png"
+},{
+      "words": [
+        "Ohne Geld",
+  "falsche Sprache",
+  "Taub",
+  "Blind",
+  "behindert",
+  "Pleite",
+  "Obdachlos",
+  "Gekündigt",
+  "Getrennt",
+  "Betrogen",
+  "Belogen",
+  "Beraubt",
+  "verführt",
+  "verloren",
+  "Verhaftet",
+  "Vergessen",
+  "verpasst",
+  "krank",
+  "Verurteilt",
+  "Panne",
+  "Feuer",
+  "Hochwasser",
+  "Sachgasse",
+  "Missgeschick",
+  "Dilemma",
+  "Kriese"
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#F2D4B5",
+    "icon": "https://cdn-icons-png.flaticon.com/128/2896/2896405.png"
+},{
+"words": [
+  "Wie hat deine Familie traditionell Weihnachten oder andere Feiertage gefeiert?",
+  "Was ist der beste Ratschlag, den dir jemand gegeben hat?",
+  "Was war dein peinlichster Moment in der Schule?",
+  "Welches war das letzte Buch, das du gelesen hast und was hast du davon gehalten?",
+  "Gibt es eine bestimmte Erfahrung, die deine Perspektive auf das Leben verändert hat?",
+  "Wenn du einen Tag lang irgendwo auf der Welt sein könntest, wo würdest du hin gehen?",
+  "Gibt es etwas, wofür du besonders dankbar bist?",
+  "Was war das letzte Konzert oder Event, das du besucht hast?",
+  "Wenn du die Möglichkeit hättest, mit einer historischen Persönlichkeit zu Abend zu essen, wen würdest du wählen und warum?",
+  "Was ist deine schönste Erinnerung an deine Schulzeit?",
+  "Welche Musik hörst du gerade am liebsten?",
+  "Wenn du einen Wunsch frei hättest, was würdest du dir wünschen?",
+  "Was ist das Beste, was dir in diesem Jahr passiert ist?",
+  "Was war das schwierigste, das du jemals tun musstest?",
+  "Wie sieht für dich ein perfekter Tag aus?",
+  "Hast du ein Lebensmotto oder einen Lieblingsspruch?",
+  "Welche Person in deinem Leben hat dich am meisten beeinflusst?",
+  "Gibt es etwas, das du immer schon mal tun wolltest, dich aber nie getraut hast?",
+  "Wie verändert sich deiner Meinung nach die Gesellschaft in den nächsten 10 Jahren?",
+  "Was ist deine früheste Erinnerung?",
+  "Hast du eine besondere Kindheitserinnerung, die du teilen möchtest?",
+  "An welchen ersten Urlaubsort kannst du dich noch gut erinnern?",
+  "Wie würde dein ideales Zuhause aussehen?",
+  "Wie stellst du dir unsere Welt in einem halben Jahrhundert vor?",
+  "Was ist das ausgefallenste Gericht, das du je probiert hast?",
+  "Was sind deine Lieblingsaktivitäten in deiner freien Zeit?",
+  "In welchen Clubs oder Gruppen warst du Mitglied?",
+  "Welcher Film, welches Essen oder Getränk, welche Serie oder welches Buch hat bei dir den höchsten Stellenwert?",
+  "An wen gehst du, wenn du dringend Geld benötigst?",
+  "Welche Destination steht noch auf deiner Reiseliste?",
+  "Was darf auf keiner Reise fehlen?",
+  "Welche Sportdisziplin begeistert dich am meisten?",
+  "Welche Frage würdest du an ein außerirdisches Wesen richten?",
+  "Was war dein größter Stolz?",
+  "Welchen Fehler bereust du am meisten?",
+  "Wie fühlst du dich normalerweise direkt nach dem Aufwachen?",
+  "Wie weit bist du schon gereist?",
+  "Was sind für dich die Schlüssel zum Glück?",
+  "Was bringt dich richtig auf die Palme?",
+  "Gibt es einen Ort, den du nie wieder besuchen möchtest?",
+  "Wenn du wiedergeboren werden könntest, welche Existenz würdest du wählen?",
+  "Was möchtest du unbedingt noch von deinen Eltern erfahren?",
+  "Gab es Momente, in denen du am liebsten im Erdboden versunken wärst?",
+  "Welche Tiere hast du als Haustiere gehabt?",
+  "Was denkst du, was Kinder am meisten brauchen?",
+  "Was denkst du, sollte man unbedingt mal ausprobieren?",
+  "Was würdest du ändern, um die Welt zu verbessern?",
+  "Wenn du Papst wärst, welche Veränderung würdest du anstreben?",
+  "Was bedeutet wahre Freundschaft für dich?",
+  "Welchen Stellenwert hat Geld in deinem Leben?",
+  "Hast du eine bevorzugte Webseite oder App, die du oft nutzt?",
+  "Was ist deine persönliche Meinung zur Religion?",
+  "Welcher Film hat bei dir den höchsten Stellenwert?",
+  "Welches Essen steht bei dir ganz oben auf der Liste?",
+  "Welches Getränk bevorzugst du am meisten?",
+  "Welche Serie begeistert dich am meisten?",
+  "Welches Buch hat bei dir den größten Eindruck hinterlassen?"
+
+    ],
+    "foreground": "#0F0F0F",
+    "background": "#BAB3EF",
+    "icon": "https://cdn-icons-png.flaticon.com/128/589/589707.png"
+
+  }
+  ],
+    };
+
+
+    const cardContainer = document.getElementById('cardContainer');
+    const englishFlag = document.getElementById('englishFlag');
+    const germanFlag = document.getElementById('germanFlag');
+    const imprint = document.querySelector('.imprint');
+
+    let currentLanguage = 'Set English';
+
+    function generateCards(lang) {
+      cardContainer.innerHTML = '';
+      cardData[lang].forEach(set => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.style.backgroundColor = set.background;
+
+        const icon = document.createElement('img');
+        icon.src = set.icon;
+        icon.alt = '';
+
+        const text = document.createElement('span');
+        text.style.color = set.foreground;
+        text.textContent = set.words[Math.floor(Math.random() * set.words.length)];
+
+        card.appendChild(icon);
+        card.appendChild(text);
+        card.addEventListener('click', () => {
+          shuffle(card, text, set.words);
+        });
+
+        cardContainer.appendChild(card);
+      });
+    }
+
+    function shuffle(card, text, words) {
+      let index = Math.floor(Math.random() * words.length);
+      const shuffleInterval = setInterval(() => {
+        text.textContent = words[index];
+        index = Math.floor(Math.random() * words.length);
+      }, 100);
+
+      setTimeout(() => {
+        clearInterval(shuffleInterval);
+      }, 1000);
+    }
+
+    englishFlag.addEventListener('click', () => {
+      currentLanguage = 'Set English';
+      generateCards(currentLanguage);
+    });
+
+    germanFlag.addEventListener('click', () => {
+      currentLanguage = 'Set German';
+      generateCards(currentLanguage);
+    });
+
+    imprint.addEventListener('click', () => {
+      alert('Responsible for the content:\r\rPatrick Hess\rHöflingweg 6\r36088 Hünfeld\rGermany\rinfo@wuerfel.jetzt');
+    });
+
+    generateCards(currentLanguage);
+  </script>
+</body>
+</html>
